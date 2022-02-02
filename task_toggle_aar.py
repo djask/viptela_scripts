@@ -7,7 +7,7 @@ from vmanage.api.device_templates import DeviceTemplates
 import pprint
 import re
 
-from lib_vmanage import get_vmanage_auth
+from lib_vmanage import *
 
 auth, vmanage_host = get_vmanage_auth('pbst.ini')
 
@@ -60,14 +60,4 @@ if 'approute' in vp.get_definition_types():
         
         resp = vp.update_policy_definition(new_aarp, new_aarp['definitionId'])
         pp.pprint(resp)
-        
-        vsmart_tids = resp['json']['masterTemplatesAffected']
-       
-        
-    
-        #update the vsmart template from affected templates above
-        print ('got vsmart template id')
-        print(vsmart_tids)
-        
-        print ('updating vsmart template, please wait...')
-        pp.pprint(vdt.reattach_multi_device_templates(vsmart_tids))
+        pp.pprint(update_affected_templates(vdt, resp))

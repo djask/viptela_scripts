@@ -19,3 +19,13 @@ def get_vmanage_auth(config_file):
     auth = Authentication(host=vmanage_host, user=vmanage_username,
                                 password=vmanage_password).login()
     return auth, vmanage_host
+
+def update_affected_templates(vdt, resp):
+    vsmart_tids = resp['json']['masterTemplatesAffected']
+
+    #update the vsmart template from affected templates above
+    print ('got vsmart template id')
+    print(vsmart_tids)
+
+    print ('updating vsmart template, please wait...')
+    return vdt.reattach_multi_device_templates(vsmart_tids)
